@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // GreenDao 配置
+android {
+    signingConfigs {
+        config {
+            keyAlias '123456'
+            keyPassword '123456'
+//            storeFile file('D:\git\SMT_EPS\EPS_AppClient\key.jks')
+//            storePassword 'jimismt'
+        }
+    }
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "com.jimi.smt.eps_appclient"
+        minSdkVersion 22
+        targetSdkVersion 29
+        versionCode 25
+        versionName "EPS-App_2.6.6_202006121022"
+        multiDexEnabled true
+
+        //添加部分
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+    // GreenDao 配置
+    // schemaVersion： 数据库schema版本，也可以理解为数据库版本号
+    // daoPackage：设置DaoMaster、DaoSession、Dao包名
+    // targetGenDir：设置DaoMaster、DaoSession、Dao目录
+    // targetGenDirTest：设置生成单元测试目录
+    // generateTests：设置自动生成单元测试用例
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.jimi.smt.eps_appclient.gen'
+        targetGenDir 'src/main/java'
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+    lintOptions {
+        // true  所有正式版构建执行规则生成崩溃的lint检查，如果有崩溃问题将停止构建
+        checkReleaseBuilds false
+        //true 错误发生后停止构建
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/mysql-connector-java-5.1.46-bin.jar')
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation 'com.android.support:multidex:1.0.2'
+    // GreenDao 配置
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    //消息传输
+}
